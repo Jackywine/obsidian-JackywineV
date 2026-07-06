@@ -1,0 +1,10 @@
+{
+  "id": "knowledge-swiper",
+  "name": "Knowledge Swiper (刷知识)",
+  "version": "1.1.0",
+  "minAppVersion": "1.8.0",
+  "description": "像刷抖音一样垂直滚动回顾笔记。支持艾宾浩斯+游戏化+数据看板、附件预览、直接编辑、同标签、方向键、快速创建并关联、卡片删除、追加日记开关(默认关闭)、每日上限默认0、自定义关键词过滤、仅链接笔记回顾、滚动智能分离、![[链接]]直接预览、通知开关。",
+  "author": "小可闹 for Jackywine",
+  "authorUrl": "https://github.com/Jackywine",
+  "isDesktopOnly": false
+}

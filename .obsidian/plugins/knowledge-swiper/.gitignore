@@ -1,0 +1,16 @@
+# Obsidian plugin runtime data - do not commit
+data.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Optional build artifacts if any
+dist/
+build/

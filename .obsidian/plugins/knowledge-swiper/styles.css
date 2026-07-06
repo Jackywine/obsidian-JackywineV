@@ -1,0 +1,422 @@
+/* Knowledge Swiper - 刷知识 (单卡分页模式) */
+/* 鼠标滚轮一次切换一张完整卡片 (scroll-snap)；点击标题/“查看详情”打开笔记详情 */
+/* 可在设置中自定义“每日回顾数量” */
+/* Respects Obsidian theme vars, atomic notes, wikilinks. No new .md created. */
+
+.knowledge-swiper-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-secondary);
+  overflow: hidden;
+}
+
+.knowledge-swiper-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--background-primary);
+  /* border-bottom removed per request to eliminate the extra separator line */
+  padding: 8px 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.knowledge-swiper-header .title {
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.knowledge-swiper-header .days-badge {
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  background: var(--background-modifier-success);
+  color: var(--text-on-accent);
+}
+.knowledge-swiper-header .days-badge.high {
+  background: #c33;
+}
+.knowledge-swiper-header .days-badge.medium {
+  background: #d80;
+}
+
+.knowledge-swiper-header .meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.knowledge-swiper-header button {
+  font-size: 11px;
+  padding: 2px 6px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 3px;
+  background: var(--background-primary);
+  cursor: pointer;
+}
+.knowledge-swiper-header button:hover {
+  background: var(--background-modifier-hover);
+}
+
+.knowledge-swiper-feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: y mandatory; /* 关键：滚动一次对齐一个完整卡片 */
+  contain: paint layout; /* 滚动性能优化：限制布局/绘制范围 */
+  will-change: scroll-position;
+}
+
+.note-card {
+  margin: 0 0 8px 0; /* 小间隙帮助视觉分页，但不破坏 snap */
+  padding: 14px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 10px 15px -3px rgba(0, 0, 0, 0.05); /* 更强的卡片立体阴影，提升层次感 */
+  height: 100%; /* 每个卡片占满一“页”高度，实现单卡展示 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start; /* 滚动对齐到卡片开头 */
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  contain: layout style paint; /* 滚动时减少重绘/布局 */
+}
+
+.note-card:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.15), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.1),
+    0 20px 25px -5px rgba(0, 0, 0, 0.1); /* hover 时阴影加深 + 轻微上浮，更像可交互卡片 */
+  transform: translateY(-2px);
+}
+
+.note-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  opacity: 0.9;
+}
+
+.note-card .card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.note-card .card-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.note-card .card-content {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-normal);
+  overflow-y: auto;
+  overscroll-behavior-y: contain; /* 内容到底时不让浏览器自动链到外层 feed，我们的 JS 逻辑会接管翻页 */
+  /* 卡片本身已是全页高度，内容超长时内部滚动 */
+}
+
+.note-card .card-content .internal-link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+.note-card .card-content .internal-link:hover {
+  text-decoration: underline;
+}
+
+.note-card .card-actions {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  opacity: 0.85;
+}
+
+.note-card .card-actions button {
+  font-size: 10px;
+  padding: 1px 5px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-modifier-form-field);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.note-card .card-actions button:hover {
+  background: var(--background-modifier-hover);
+}
+
+.knowledge-swiper-footer {
+  padding: 4px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+}
+
+.knowledge-swiper-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Small polish for Obsidian reading view embeds inside cards */
+.note-card .card-content .markdown-embed,
+.note-card .card-content .internal-embed {
+  border: none;
+  padding: 0;
+}
+
+/* 直接预览的双向链接嵌入笔记样式（! [[Note]] 内容展开） */
+.note-card .card-content .internal-embed .embedded-note-title {
+  font-size: 0.85em;
+  font-weight: 500;
+  margin-bottom: 4px;
+  opacity: 0.75;
+  border-bottom: 1px dotted var(--background-modifier-border);
+  padding-bottom: 2px;
+}
+.note-card .card-content .internal-embed .embedded-note-title a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.note-card .card-content .internal-embed .embedded-note-title a:hover {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+.note-card .card-content .internal-embed .embedded-note-body {
+  font-size: inherit;
+  padding: 4px 0;
+  border-left: 2px solid var(--text-faint, var(--background-modifier-border));
+  padding-left: 6px;
+  margin-left: 2px;
+  background: var(--background-secondary);
+  opacity: 0.85;
+  border-radius: 0 3px 3px 0;
+}
+.note-card .card-content .internal-embed .embedded-note-body > * {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+/* ========== 卡片文字大小 (动态 var) ========== */
+.knowledge-swiper-view .note-card .card-title,
+.knowledge-swiper-view .note-card .card-content {
+  font-size: var(--ks-font-size, 14px);
+  line-height: 1.5;
+}
+
+/* ========== 主题模式 ========== */
+
+/* 亮色模式 */
+.knowledge-swiper-view.theme-light .note-card {
+  background: #f8f9fa;
+  color: #212529;
+  border-color: #dee2e6;
+}
+.knowledge-swiper-view.theme-light .note-card .card-header {
+  border-bottom-color: #e9ecef;
+}
+.knowledge-swiper-view.theme-light .card-content .internal-link {
+  color: #0d6efd;
+}
+
+/* 暗色模式 (默认风格) */
+.knowledge-swiper-view.theme-dark .note-card {
+  background: var(--background-primary);
+  color: var(--text-normal);
+  border-color: var(--background-modifier-border);
+}
+
+/* 蓝色模式 */
+.knowledge-swiper-view.theme-blue .note-card {
+  background: #0a192f;
+  color: #64ffda;
+  border-color: #112240;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 10px 15px -3px rgba(100, 255, 218, 0.15); /* 蓝色主题的霓虹卡片阴影 */
+}
+.knowledge-swiper-view.theme-blue .note-card .card-title {
+  color: #ccd6f6;
+}
+.knowledge-swiper-view.theme-blue .card-content .internal-link {
+  color: #64ffda;
+}
+
+/* 终端模式 (老式绿屏终端) */
+.knowledge-swiper-view.theme-terminal .note-card {
+  background: #000000;
+  color: #00ff00;
+  border-color: #003300;
+  font-family: 'Courier New', 'Consolas', monospace;
+  box-shadow: 
+    0 0 8px #00aa00,
+    0 4px 6px -1px rgba(0, 0, 0, 0.4); /* 终端风格 + 轻微深度阴影，更像老式显示器卡片 */
+}
+.knowledge-swiper-view.theme-terminal .note-card .card-title {
+  color: #00ff00;
+  font-weight: bold;
+}
+.knowledge-swiper-view.theme-terminal .card-content {
+  font-family: 'Courier New', 'Consolas', monospace;
+}
+.knowledge-swiper-view.theme-terminal .card-content .internal-link {
+  color: #00cc00;
+  text-decoration: underline;
+}
+
+/* 黑客帝国 (Matrix) */
+.knowledge-swiper-view.theme-matrix .note-card {
+  background: #000000;
+  color: #00ff41;
+  border-color: #003300;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 4px #00ff41;
+  box-shadow: 
+    0 0 15px rgba(0, 255, 65, 0.4),
+    0 4px 6px -1px rgba(0, 0, 0, 0.5); /* Matrix 霓虹发光 + 卡片阴影，增强立体感 */
+}
+.knowledge-swiper-view.theme-matrix .note-card .card-title {
+  color: #00ff41;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.knowledge-swiper-view.theme-matrix .card-content .internal-link {
+  color: #00cc33;
+}
+
+/* 火星模式 (红色调, 沙漠/火星风格) */
+.knowledge-swiper-view.theme-mars .note-card {
+  background: #2c1810;
+  color: #ffcc99;
+  border-color: #8b4513;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 10px 15px -3px rgba(139, 69, 19, 0.35); /* 火星沙尘 + 温暖深度阴影 */
+}
+.knowledge-swiper-view.theme-mars .note-card .card-title {
+  color: #ffaa66;
+}
+.knowledge-swiper-view.theme-mars .card-content .internal-link {
+  color: #ffddaa;
+}
+
+/* 卡片内直接编辑样式 */
+.ks-edit-textarea {
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  padding: 8px;
+  font-family: var(--font-monospace);
+}
+
+.ks-edit-buttons button {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+.ks-inline-settings {
+  font-size: 12px;
+  padding: 6px 8px;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.ks-inline-settings select, .ks-inline-settings input[type=number] {
+  font-size: 12px;
+  padding: 2px 4px;
+}
+
+.ks-mode-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--background-modifier-success);
+  color: var(--text-on-accent);
+  cursor: pointer;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.ks-mode-badge:hover {
+  opacity: 0.8;
+}
+
+.ks-gamify {
+  font-size: 10px;
+  margin-left: 6px;
+  color: var(--text-muted);
+  background: var(--background-modifier-hover);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* Direct attachment preview styles in cards (images, audio, video, embeds) */
+.note-card .card-content img,
+.note-card .card-content audio,
+.note-card .card-content video,
+.note-card .card-content .internal-embed img,
+.note-card .card-content .internal-embed audio,
+.note-card .card-content .internal-embed video {
+  max-width: 100%;
+  display: block;
+  margin: 8px auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.note-card .card-content img {
+  max-height: min(55vh, 420px);
+  height: auto;
+  object-fit: contain;
+}
+
+.note-card .card-content audio,
+.note-card .card-content video {
+  width: 100%;
+  max-width: 420px;
+}
+
+.note-card .card-content .internal-embed {
+  display: block;
+  margin: 8px 0;
+}
+
+/* 删除按钮醒目但不抢眼（各主题自适应） */
+.note-card .card-actions .ks-del-btn {
+  border-color: var(--text-error, #c53030);
+  color: var(--text-error, #c53030);
+  opacity: 0.9;
+}
+.note-card .card-actions .ks-del-btn:hover {
+  background: rgba(197, 48, 48, 0.12);
+  opacity: 1;
+}
