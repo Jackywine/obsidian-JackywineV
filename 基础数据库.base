@@ -1,0 +1,43 @@
+formulas:
+  Untitled 2: ""
+views:
+  - type: cards
+    name: Book
+    filters:
+      and:
+        - "!cover.isEmpty()"
+        - "!author.isEmpty()"
+    order:
+      - file.name
+    cardSize: 120
+    image: note.cover
+    imageAspectRatio: 1.5
+  - type: cards
+    name: Sheep
+    filters:
+      or:
+        - file.hasTag("#Sheep人物", "#Sheep")
+    order:
+      - file.name
+    image: note.file
+    imageAspectRatio: 0.95
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - created
+      - 评分
+      - tags
+  - type: cards
+    name: Cards
+    order:
+      - file.name
+      - tags
+      - 评分
+    sort:
+      - property: 评分
+        direction: DESC
+    cardSize: 240
+    image: note.file
+    imageFit: ""
+    imageAspectRatio: 1

@@ -1,0 +1,13 @@
+/* 段间距 - 调整 */
+div.cm-line {
+  padding-top: 0.3em !important;
+  padding-bottom: 0.3em !important;
+}
+/* 阅读模式行高 - 调整 */
+.markdown-preview-view {
+  --line-height-normal: 35px;
+}
+/* 编辑模式行高 - 调整 */
+.markdown-source-view.mod-cm6 .cm-scroller {
+  --line-height-normal: 35px;
+}

@@ -1,0 +1,133 @@
+/* @settings
+name: 🌌 自定义图谱节点与连线
+id: graph-custom-lines
+settings:
+    - id: graph-line-color
+      title: 连线色彩
+      description: 推荐使用预设色彩，体验比原生颜色选择器好很多
+      type: variable-select
+      default: "#2efff1"
+      options:
+        - label: 青色霓虹 (当前推荐)
+          value: "#2efff1"
+        - label: 薄荷绿
+          value: "#00ff88"
+        - label: 薰衣草紫
+          value: "#a78bfa"
+        - label: 天空蓝
+          value: "#60a5fa"
+        - label: 樱花粉
+          value: "#f472b6"
+        - label: 暖阳橙
+          value: "#fbbf24"
+        - label: 纯白
+          value: "#ffffff"
+        - label: 浅灰
+          value: "#cbd5e1"
+        - label: 荧光粉 (高亮风)
+          value: "#ff3366"
+    - id: graph-line-opacity
+      title: 连线透明度
+      type: variable-number-slider
+      default: 0.3
+      min: 0
+      max: 1
+      step: 0.01
+    - id: graph-line-highlight-color
+      title: 高亮连线色彩
+      description: 高亮时的连线颜色，推荐从预设里挑
+      type: variable-select
+      default: "#ff3366"
+      options:
+        - label: 荧光粉
+          value: "#ff3366"
+        - label: 青色霓虹
+          value: "#2efff1"
+        - label: 薰衣草紫
+          value: "#a78bfa"
+        - label: 纯白
+          value: "#ffffff"
+        - label: 暖黄
+          value: "#fde047"
+    - id: graph-line-highlight-opacity
+      title: 高亮连线透明度
+      type: variable-number-slider
+      default: 0.85
+      min: 0
+      max: 1
+      step: 0.01
+    - id: graph-node-color
+      title: 节点色彩
+      description: 推荐使用预设，纯白最干净
+      type: variable-select
+      default: "#ffffff"
+      options:
+        - label: 纯白 (推荐)
+          value: "#ffffff"
+        - label: 浅灰
+          value: "#e5e7eb"
+        - label: 青色
+          value: "#2efff1"
+        - label: 薰衣草紫
+          value: "#c4b5fd"
+        - label: 柔和蓝
+          value: "#93c5fd"
+    - id: graph-node-opacity
+      title: 节点透明度
+      type: variable-number-slider
+      default: 0.8
+      min: 0
+      max: 1
+      step: 0.01
+*/
+
+:root {
+  --graph-line-color: #2efff1;
+  --graph-line-opacity: 0.3;
+
+  --graph-line-highlight-color: #ff3366;
+  --graph-line-highlight-opacity: 0.85;
+
+  --graph-node-color: #ffffff;
+  --graph-node-opacity: 0.8;
+}
+
+.graph-view.color-line {
+    color: var(--graph-line-color) !important;
+    opacity: var(--graph-line-opacity) !important;
+}
+
+.graph-view.color-line-highlight {
+    color: var(--graph-line-highlight-color) !important;
+    opacity: var(--graph-line-highlight-opacity) !important;
+}
+
+.graph-view.color-arrow {
+    color: var(--graph-line-color) !important;
+    opacity: var(--graph-line-opacity) !important;
+}
+
+/* 加强连线与节点色彩控制（纯预设选择，体验更好） */
+.graph-view .line,
+.graph-view line {
+  stroke: var(--graph-line-color) !important;
+  opacity: var(--graph-line-opacity) !important;
+}
+
+.graph-view .arrow {
+  stroke: var(--graph-line-color) !important;
+  fill: var(--graph-line-color) !important;
+  opacity: var(--graph-line-opacity) !important;
+}
+
+.graph-view .node,
+.graph-view .node-circle {
+  color: var(--graph-node-color) !important;
+  fill: var(--graph-node-color) !important;
+  stroke: var(--graph-node-color) !important;
+  opacity: var(--graph-node-opacity) !important;
+}
+
+.graph-view .node-text {
+  fill: var(--graph-node-color) !important;
+}

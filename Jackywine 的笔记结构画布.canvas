@@ -1,0 +1,33 @@
+{
+	"nodes":[
+		{"id":"1c73664ab42bf365","type":"group","x":-1040,"y":-510,"width":2080,"height":1020,"color":"#D0D0D0","label":"📁 Jackywine2025_Obsidian_Vault"},
+		{"id":"5e630282ccd32296","type":"group","x":-990,"y":-460,"width":960,"height":700,"color":"#F2F2F2","label":"□ 配置层 — 可打包分发"},
+		{"id":"28fbaa33d1771baf","type":"group","x":0,"y":-460,"width":960,"height":700,"color":"#DCDCDC","label":"■ 笔记层 — 个人内容（不打包）"},
+		{"id":"09724810f616f6e7","type":"group","x":-990,"y":265,"width":1950,"height":195,"color":"#E5E5E5","label":"▨ 项目文件"},
+		{"id":"eda399e106d7b72a","type":"group","x":-955,"y":-410,"width":890,"height":280,"color":"#E8E8E8","label":".obsidian/  核心配置"},
+		{"id":"b8144d083143b4ef","type":"group","x":-955,"y":-110,"width":440,"height":180,"color":"#E8E8E8","label":".agents/  AI 配置"},
+		{"id":"f7aff2848e81dfb4","type":"text","text":"📓 日记\n2024 / 2025 / 2026 年  共数百篇","x":35,"y":-405,"width":430,"height":110},
+		{"id":"f0c8cfd28f8b2d13","type":"text","text":"📊 研究报告\nAI · 设计 · 经济 · 学习 · 历史","x":485,"y":-405,"width":440,"height":110},
+		{"id":"a0cea77974efe365","type":"text","text":"📋 更多个人目录：AI outputs/ · Clippings/ · copilot/ · Claudian/","x":35,"y":-45,"width":890,"height":95},
+		{"id":"3b73fb29b05aeaf5","type":"text","text":"📥 1nbox.md\n快速收集 · 待处理入口","x":35,"y":65,"width":430,"height":100},
+		{"id":"42d0201aeb3ad686","type":"text","text":"🗺️ 1ndex.md · 1Navi.md\n知识库地图与导航","x":485,"y":65,"width":440,"height":100},
+		{"id":"77be81ed676a5490","type":"text","text":"📄 .gitignore\n排除个人笔记 · copilot 索引 · 附件","x":-920,"y":325,"width":400,"height":95},
+		{"id":"0c1636ca29e5f2d7","type":"text","text":"📄 [[Jackywine 知识库欢迎你的到来]]\n知识库首页入口","x":-490,"y":325,"width":400,"height":95},
+		{"id":"728208484704fa90","type":"text","text":"📄 [[Jackywine 的笔记结构画布.canvas]]\n基础工作白板","x":-60,"y":325,"width":400,"height":95},
+		{"id":"d822f050ff0795dd","type":"text","text":"□ 白底 = 可打包分发     ■ 灰底 = 个人内容     ▨ 浅灰 = 项目文件","x":370,"y":325,"width":480,"height":95},
+		{"id":"030949a77947afc9","type":"text","text":"✂️ 3 个 [[定制 CSS]] 片段\nbook-covers · graph-lines · line-spacing","x":-920,"y":-235,"width":400,"height":90},
+		{"id":"b3483eab36008569","type":"text","text":"🔌 [[插件清单和配置]]\n已安装至本地","x":-920,"y":-360,"width":400,"height":110},
+		{"id":"4d1b4dd25e2b2ab9","type":"text","text":"🎨 Canvas 白板\n多张 *.canvas 文件","x":35,"y":-275,"width":430,"height":100},
+		{"id":"3ae7391461fd3210","type":"text","text":"📊 数据库 *.base\n1Basic · 结构化视图","x":485,"y":-275,"width":440,"height":100},
+		{"id":"732dba6091426d44","type":"text","text":"💬 flomo 同步内容\nflomo AI/ · flomo 随想/","x":35,"y":-160,"width":430,"height":100},
+		{"id":"18efcecdf462de3c","type":"text","text":"📎 attachment/\n图片 · 文件附件","x":485,"y":-160,"width":440,"height":100},
+		{"id":"8d826df690c70d1c","type":"text","text":"⚙️ 配置文件\nhotkeys · settings · graph · appearance…","x":-500,"y":-235,"width":400,"height":90},
+		{"id":"fb474df6a7fd79e4","type":"text","text":"🤖 5 个 CodeWhale [[Obsidian 专属 Skills]]\njson-canvas · obsidian-markdown\nobsidian-bases · randomwalk · save-chat","x":-920,"y":-70,"width":370,"height":125},
+		{"id":"2c158a4864ab7533","type":"text","text":"📄 Templates/\n笔记模板","x":-495,"y":-65,"width":200,"height":115},
+		{"id":"e261ae7301055749","type":"text","text":"📄 AGENTS.md\n小可闹角色指令\n[[小可闹系统提示词 V2.1]]","x":-275,"y":-65,"width":175,"height":115},
+		{"id":"bd9009c6099955b0","type":"text","text":"🎨 主题\nMinimal · Things · Border · AnuPpuccin… [[Velocity]]","x":-500,"y":-360,"width":400,"height":110},
+		{"id":"d185cee1ce707c22","type":"text","text":"🧠 [[Agentmemory]].md\n小可闹持久记忆存档","x":-920,"y":90,"width":370,"height":100},
+		{"id":"1d72f0c95c249aba","type":"text","text":"📄 AI outputs/\nCodeWhale 使用指南（完整版 + 小白版）","x":-495,"y":90,"width":395,"height":100}
+	],
+	"edges":[]
+}

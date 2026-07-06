@@ -1,0 +1,8 @@
+{
+  "cssTheme": "Velocity",
+  "enabledCssSnippets": [
+    "line-spacing",
+    "graph-custom-lines",
+    "book-covers"
+  ]
+}

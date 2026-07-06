@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Obsidian plugins (nested git repos)
+.obsidian/plugins/knowledge-swiper/
+
+# Obsidian
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/cache
+.trash/
+
+# Node
+node_modules/
+
+# Env
+.env
+.env.local
